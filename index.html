@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            background: transparent;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .container-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .code-input {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .code-digit {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .code-digit:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        }
+
+        .hint {
+            color: white;
+            font-size: 16px;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            border-left: 4px solid #fff;
+            backdrop-filter: blur(5px);
+        }
+
+        .surprise-message {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            /* background: rgba(255, 107, 107, 0.9); */
+            background-image: url('/image/mylove.JPG');
+            background-size: contain;
+            
+            color: white;
+            border-radius: 15px;
+            font-size: 18px;
+            line-height: 1.6;
+            animation: fadeIn 1s ease-in;
+            backdrop-filter: blur(5px);
+        }
+
+        .hearts {
+            font-size: 30px;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .error {
+            color: #e53e3e;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .success {
+            color: #38a169;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Video inside container -->
+        <video class="container-video" autoplay muted loop>
+            <source src="/image/PYSF8722.MP4" type="video/mp4">
+            <source src="your-video.webm" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Optional overlay for better text readability -->
+        <div class="video-overlay"></div>
+
+        <!-- Content that appears over the video -->
+        <div class="container-content">
+            <h1>🎉 Birthday Surprise! 🎉</h1>
+
+            <div class="hint">
+                💡 <strong>Hint:</strong> The month we first met + your birth month + my birth month<br>
+                <small>(Enter each as 2 digits: day-month-month)</small>
+            </div>
+
+            <div class="code-input">
+                <input type="text" class="code-digit" maxlength="1" id="digit1">
+                <input type="text" class="code-digit" maxlength="1" id="digit2">
+                <input type="text" class="code-digit" maxlength="1" id="digit3">
+                <input type="text" class="code-digit" maxlength="1" id="digit4">
+                <input type="text" class="code-digit" maxlength="1" id="digit5">
+                <input type="text" class="code-digit" maxlength="1" id="digit6">
+            </div>
+
+            <button class="btn" onclick="checkCode()">Unlock Surprise 💝</button>
+
+            <div id="message"></div>
+
+            <div class="surprise-message" id="surprise">
+                <div class="hearts">💕 💖 💕</div>
+                <h2>Happy Birthday, My Love! 🎂</h2>
+            </p>  💕 Happy Birthday to my absolute everything! 🎂 Today marks another year of your beautiful existence,
+              and I couldn't be more grateful that you're mine. From the moment you walked into my life, everything
+              changed for the better. You've filled my days with endless laughter, my heart with unconditional love,
+              and my soul with a peace I never knew existed. 💖
+              <p>
+                <p>
+                    Every morning I wake up thankful for another day to love you, and every night I fall asleep counting my
+                    blessings that you chose me. You're not just my partner – you're my best friend, my biggest supporter,
+                    my safe haven, and my greatest adventure all wrapped into one incredible person. 🥰
+
+
+                </p>
+                <p>
+                    The way you light up a room with your smile, the kindness in your heart, and the love you show everyone
+                    around you constantly amazes me. You make me want to be a better person every single day. 💕
+                </p>
+                <p>
+                    As you blow out your candles today, know that you're not just celebrating another year of life – you're
+                    celebrating another year of being absolutely extraordinary. I promise to spend this new year of your
+                    life showing you just how precious you are to me. 🎂
+                    Here's to more adventures, more memories, and more reasons to fall deeper in love with you. Happy
+                    Birthday, my darling! 💖💕🎉
+                <strong>Get ready for your surprise... 🎁</strong><br>
+                <em>(Your actual surprise is waiting for you in the kitchen! 😉)</em>
+                </p>
+                <div class="hearts">💕 💖 💕</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // You can customize these values
+        const correctCode = "020706"; // Example: 15th day, 07 (July), 12 (December)
+
+        // Auto-focus next input
+        document.querySelectorAll('.code-digit').forEach((input, index) => {
+            input.addEventListener('input', function () {
+                if (this.value.length === 1 && index < 5) {
+                    document.getElementById(`digit${index + 2}`).focus();
+                }
+            });
+
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                    document.getElementById(`digit${index}`).focus();
+                }
+            });
+        });
+
+        function checkCode() {
+            const enteredCode = Array.from(document.querySelectorAll('.code-digit'))
+                .map(input => input.value)
+                .join('');
+
+            const messageDiv = document.getElementById('message');
+            const surpriseDiv = document.getElementById('surprise');
+
+            if (enteredCode.length !== 6) {
+                messageDiv.innerHTML = '<div class="error">Please enter all 6 digits!</div>';
+                return;
+            }
+
+            if (enteredCode === correctCode) {
+                messageDiv.innerHTML = '<div class="success">🎉 Code Unlocked! 🎉</div>';
+                surpriseDiv.style.display = 'block';
+
+                // Add some sparkle effects
+                setTimeout(() => {
+                    document.body.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7)';
+                    document.body.style.backgroundSize = '400% 400%';
+                    document.body.style.animation = 'gradient 3s ease infinite';
+
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        @keyframes gradient {
+                            0% { background-position: 0% 50%; }
+                            50% { background-position: 100% 50%; }
+                            100% { background-position: 0% 50%; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }, 500);
+            } else {
+                messageDiv.innerHTML = '<div class="error">Oops! Try again. Think about our special dates 💭</div>';
+            }
+        }
+
+        // Allow Enter key to submit
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkCode();
+            }
+        });
+    </script>
+</body>
+
+</html>

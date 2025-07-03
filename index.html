@@ -6,11 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birthday Surprise</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0;
-            padding: 20px;
+            padding: 10px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -43,12 +47,14 @@
             position: relative;
             background: transparent;
             border-radius: 20px;
-            padding: 40px;
+            padding: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             text-align: center;
             max-width: 500px;
             width: 100%;
             overflow: hidden;
+            max-height: 95vh;
+            overflow-y: auto;
         }
 
         .container-content {
@@ -59,28 +65,31 @@
 
         h1 {
             color: white;
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            line-height: 1.2;
         }
 
         .code-input {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 30px 0;
+            gap: 8px;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
 
         .code-digit {
-            width: 50px;
-            height: 50px;
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
             border: 3px solid #e2e8f0;
             border-radius: 10px;
-            font-size: 24px;
+            font-size: clamp(18px, 4vw, 24px);
             font-weight: bold;
             text-align: center;
             transition: all 0.3s ease;
             background: white;
+            touch-action: manipulation;
         }
 
         .code-digit:focus {
@@ -91,34 +100,43 @@
 
         .hint {
             color: white;
-            font-size: 16px;
-            margin: 20px 0;
+            font-size: clamp(14px, 3vw, 16px);
+            margin: 15px 0;
             padding: 15px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             border-left: 4px solid #fff;
             backdrop-filter: blur(5px);
+            line-height: 1.4;
         }
 
         .surprise-message {
             display: none;
-            margin-top: 30px;
-            padding: 25px;
-            /* background: rgba(255, 107, 107, 0.9); */
+            margin-top: 20px;
+            padding: 20px;
             background-image: url('/image/mylove.JPG');
-            background-size: contain;
+            background-size: cover;
             
             color: white;
             border-radius: 15px;
-            font-size: 18px;
+            font-size: clamp(14px, 3vw, 18px);
             line-height: 1.6;
             animation: fadeIn 1s ease-in;
             backdrop-filter: blur(5px);
+            max-height: 60vh;
+            overflow-y: auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .surprise-message h2 {
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .hearts {
-            font-size: 30px;
-            margin: 20px 0;
+            font-size: clamp(24px, 6vw, 30px);
+            margin: 15px 0;
             animation: pulse 2s infinite;
         }
 
@@ -135,45 +153,172 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
+            0%, 100% {
                 transform: scale(1);
             }
-
             50% {
                 transform: scale(1.1);
             }
         }
 
         .error {
-            color: #e53e3e;
-            font-size: 14px;
+            color: #ff6b6b;
+            font-size: clamp(12px, 2.5vw, 14px);
             margin-top: 10px;
+            background: rgba(255, 107, 107, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
         }
 
         .success {
-            color: #38a169;
-            font-size: 14px;
+            color: #4ecdc4;
+            font-size: clamp(12px, 2.5vw, 14px);
             margin-top: 10px;
+            background: rgba(78, 205, 196, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
         }
 
         .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 12px 25px;
             border-radius: 25px;
-            font-size: 16px;
+            font-size: clamp(14px, 3vw, 16px);
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin-top: 15px;
+            touch-action: manipulation;
+            min-height: 44px;
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                padding: 15px;
+                margin: 5px;
+                border-radius: 15px;
+                max-height: 98vh;
+            }
+
+            .code-input {
+                gap: 5px;
+                margin: 15px 0;
+            }
+
+            .hint {
+                padding: 12px;
+                margin: 10px 0;
+            }
+
+            .surprise-message {
+                padding: 15px;
+                margin-top: 15px;
+                max-height: 55vh;
+            }
+
+            .hearts {
+                margin: 10px 0;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+                border-radius: 10px;
+            }
+
+            .code-input {
+                gap: 3px;
+            }
+
+            .surprise-message {
+                padding: 10px;
+                max-height: 50vh;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 600px;
+                padding: 50px;
+            }
+
+            .surprise-message {
+                max-height: 70vh;
+            }
+        }
+
+        /* Landscape orientation on mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                max-height: 95vh;
+                padding: 10px;
+            }
+
+            .surprise-message {
+                max-height: 40vh;
+            }
+
+            h1 {
+                margin-bottom: 10px;
+            }
+
+            .code-input {
+                margin: 10px 0;
+            }
+        }
+
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .container {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            .hearts {
+                animation: none;
+            }
+            
+            .surprise-message {
+                animation: none;
+            }
+            
+            .btn {
+                transition: none;
+            }
+        }
+
+        /* Focus improvements for keyboard navigation */
+        .code-digit:focus-visible {
+            outline: 3px solid #4ecdc4;
+            outline-offset: 2px;
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid #4ecdc4;
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -181,7 +326,7 @@
 <body>
     <div class="container">
         <!-- Video inside container -->
-        <video class="container-video" autoplay muted loop>
+        <video class="container-video" autoplay muted loop playsinline>
             <source src="/image/PYSF8722.MP4" type="video/mp4">
             <source src="your-video.webm" type="video/webm">
             Your browser does not support the video tag.
@@ -196,16 +341,16 @@
 
             <div class="hint">
                 💡 <strong>Hint:</strong> The month we first met + your birth month + my birth month<br>
-                <small>(Enter each as 2 digits: day-month-month)</small>
+                <small>(Enter each as 2 digits: month-month-month)</small>
             </div>
 
             <div class="code-input">
-                <input type="text" class="code-digit" maxlength="1" id="digit1">
-                <input type="text" class="code-digit" maxlength="1" id="digit2">
-                <input type="text" class="code-digit" maxlength="1" id="digit3">
-                <input type="text" class="code-digit" maxlength="1" id="digit4">
-                <input type="text" class="code-digit" maxlength="1" id="digit5">
-                <input type="text" class="code-digit" maxlength="1" id="digit6">
+                <input type="text" class="code-digit" maxlength="1" id="digit1" inputmode="numeric">
+                <input type="text" class="code-digit" maxlength="1" id="digit2" inputmode="numeric">
+                <input type="text" class="code-digit" maxlength="1" id="digit3" inputmode="numeric">
+                <input type="text" class="code-digit" maxlength="1" id="digit4" inputmode="numeric">
+                <input type="text" class="code-digit" maxlength="1" id="digit5" inputmode="numeric">
+                <input type="text" class="code-digit" maxlength="1" id="digit6" inputmode="numeric">
             </div>
 
             <button class="btn" onclick="checkCode()">Unlock Surprise 💝</button>
@@ -215,17 +360,14 @@
             <div class="surprise-message" id="surprise">
                 <div class="hearts">💕 💖 💕</div>
                 <h2>Happy Birthday, My Love! 🎂</h2>
-            </p>  💕 Happy Birthday to my absolute everything! 🎂 Today marks another year of your beautiful existence,
-              and I couldn't be more grateful that you're mine. From the moment you walked into my life, everything
-              changed for the better. You've filled my days with endless laughter, my heart with unconditional love,
-              and my soul with a peace I never knew existed. 💖
-              <p>
+                <p>💕 Happy Birthday to my absolute everything! 🎂 Today marks another year of your beautiful existence,
+                  and I couldn't be more grateful that you're mine. From the moment you walked into my life, everything
+                  changed for the better. You've filled my days with endless laughter, my heart with unconditional love,
+                  and my soul with a peace I never knew existed. 💖</p>
                 <p>
                     Every morning I wake up thankful for another day to love you, and every night I fall asleep counting my
                     blessings that you chose me. You're not just my partner – you're my best friend, my biggest supporter,
                     my safe haven, and my greatest adventure all wrapped into one incredible person. 🥰
-
-
                 </p>
                 <p>
                     The way you light up a room with your smile, the kindness in your heart, and the love you show everyone
@@ -235,10 +377,14 @@
                     As you blow out your candles today, know that you're not just celebrating another year of life – you're
                     celebrating another year of being absolutely extraordinary. I promise to spend this new year of your
                     life showing you just how precious you are to me. 🎂
+                </p>
+                <p>
                     Here's to more adventures, more memories, and more reasons to fall deeper in love with you. Happy
                     Birthday, my darling! 💖💕🎉
-                <strong>Get ready for your surprise... 🎁</strong><br>
-                <em>(Your actual surprise is waiting for you in the kitchen! 😉)</em>
+                </p>
+                <p>
+                    <strong>Get ready for your surprise... 🎁</strong><br>
+                    <em>(Your actual surprise is waiting for you in the kitchen! 😉)</em>
                 </p>
                 <div class="hearts">💕 💖 💕</div>
             </div>
@@ -247,11 +393,14 @@
 
     <script>
         // You can customize these values
-        const correctCode = "020706"; // Example: 15th day, 07 (July), 12 (December)
+        const correctCode = "020706"; // Example: 02 (February), 07 (July), 06 (June)
 
         // Auto-focus next input
         document.querySelectorAll('.code-digit').forEach((input, index) => {
             input.addEventListener('input', function () {
+                // Only allow numbers
+                this.value = this.value.replace(/[^0-9]/g, '');
+                
                 if (this.value.length === 1 && index < 5) {
                     document.getElementById(`digit${index + 2}`).focus();
                 }
@@ -260,6 +409,13 @@
             input.addEventListener('keydown', function (e) {
                 if (e.key === 'Backspace' && this.value === '' && index > 0) {
                     document.getElementById(`digit${index}`).focus();
+                }
+            });
+
+            // Prevent non-numeric input
+            input.addEventListener('keypress', function (e) {
+                if (!/[0-9]/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Enter'].includes(e.key)) {
+                    e.preventDefault();
                 }
             });
         });
@@ -280,6 +436,13 @@
             if (enteredCode === correctCode) {
                 messageDiv.innerHTML = '<div class="success">🎉 Code Unlocked! 🎉</div>';
                 surpriseDiv.style.display = 'block';
+                
+                // Scroll to surprise message on mobile
+                if (window.innerWidth <= 768) {
+                    setTimeout(() => {
+                        surpriseDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 500);
+                }
 
                 // Add some sparkle effects
                 setTimeout(() => {
@@ -308,6 +471,15 @@
                 checkCode();
             }
         });
+
+        // Prevent zoom on iOS when focusing inputs
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            document.querySelectorAll('.code-digit').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.fontSize = '16px';
+                });
+            });
+        }
     </script>
 </body>
 
